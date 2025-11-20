@@ -13,6 +13,9 @@
                     <li class="nav-item">
                         <a class="nav-link ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf("/"))eq'cars.jsp'?'active':''}" aria-current="page" href="${pageContext.request.contextPath}/Cars">Cars</a>
                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf("/"))eq'users.jsp'?'active':''}" aria-current="page" href="${pageContext.request.contextPath}/Users">Users</a>
+                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li>
