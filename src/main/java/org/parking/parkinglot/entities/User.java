@@ -22,7 +22,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "owner", orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", orphanRemoval = false)
     private List<Car> cars = new ArrayList<>();
 
     public List<Car> getCars() {
