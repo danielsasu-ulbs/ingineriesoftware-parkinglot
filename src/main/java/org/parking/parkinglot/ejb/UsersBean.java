@@ -2,11 +2,13 @@ package org.parking.parkinglot.ejb;
 
 import jakarta.ejb.EJBException;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.parking.parkinglot.common.UserDto;
 import org.parking.parkinglot.entities.User;
+import org.parking.parkinglot.entities.UserGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.logging.Logger;
 public class UsersBean {
 
     private static final Logger LOG = Logger.getLogger(UsersBean.class.getName());
+
+    @Inject
+    PasswordBean passwordBean;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -39,5 +44,26 @@ public class UsersBean {
         }
 
         return dtos;
+    }
+
+    public void createUser(String username, String email, String password, List<String> user_groups) {
+        LOG.info("createUser");
+
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(passwordBean.convertToSha256(password));
+        entityManager.persist(user);
+
+        assignGroupsToUser(username, user_groups);
+    }
+
+    public void assignGroupsToUser(String username, List<String> user_groups) {
+        for(String user_group : user_groups) {
+            UserGroup userGroup = new UserGroup();
+            userGroup.setUsername(username);
+            userGroup.setUserGroup(user_group);
+            entityManager.persist(userGroup);
+        }
     }
 }
