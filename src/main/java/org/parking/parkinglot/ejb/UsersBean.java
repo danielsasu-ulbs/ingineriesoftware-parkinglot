@@ -11,6 +11,7 @@ import org.parking.parkinglot.entities.User;
 import org.parking.parkinglot.entities.UserGroup;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -65,5 +66,13 @@ public class UsersBean {
             userGroup.setUserGroup(user_group);
             entityManager.persist(userGroup);
         }
+    }
+
+    public Collection<String> findUsernameByUserIds(Collection<Long> userIds) {
+        List<String> usernames =
+                entityManager.createQuery("SELECT u.username FROM User u WHERE u.id IN :userIds", String.class)
+                        .setParameter("userIds", userIds)
+                        .getResultList();
+        return usernames;
     }
 }
